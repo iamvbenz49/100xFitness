@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @map("_id") @default(auto()) @db.ObjectId
+  email      String   @unique
+  name       String
+  passwordHash String
+  workouts   Workout[]
+  routines   Routine[]
+  weightLogs WeightLog[]
+  nutrition  NutritionLog[]
+  createdAt  DateTime @default(now())
+}
+
+model Workout {
+  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  userId    String      @db.ObjectId
+  user      User        @relation(fields: [userId], references: [id])
+  name      String
+  exercises WorkoutExercise[]
+  createdAt DateTime    @default(now())
+}
+
+model WorkoutExercise {
+  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  workoutId String   @db.ObjectId
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  name      String
+  sets      SetLog[]
+}
+
+model SetLog {
+  id           String   @id @map("_id") @default(auto()) @db.ObjectId
+  exerciseId   String   @db.ObjectId
+  exercise     WorkoutExercise @relation(fields: [exerciseId], references: [id])
+  reps         Int
+  weight       Float
+  isPersonalBest Boolean @default(false)
+}
+
+model Routine {
+  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
+  exercises RoutineExercise[]
+  createdAt DateTime    @default(now())
+}
+
+model RoutineExercise {
+  id        String  @id @map("_id") @default(auto()) @db.ObjectId
+  routineId String  @db.ObjectId
+  routine   Routine @relation(fields: [routineId], references: [id])
+  name      String
+  sets      Int
+  reps      Int
+  weight    Float
+}
+
+model WeightLog {
+  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  weight    Float
+  createdAt DateTime @default(now())
+}
+
+model NutritionLog {
+  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  calories  Int
+  protein   Float
+  carbs     Float
+  fats      Float
+  createdAt DateTime @default(now())
+}
