@@ -1,6 +1,5 @@
 import { Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import IUser from "../interfaces/models/IUser";
 import AuthRequest from "../interfaces/auth/AuthRequest";
 import { createNewUser, findUserByEmail } from "../services/userService";
 import { User } from "@prisma/client";
@@ -20,11 +19,7 @@ export const register = async (req: AuthRequest, res: Response, next: NextFuncti
       const passwordHash = await bcrypt.hash(password, 10);
       const newUser = await createNewUser(name, email, passwordHash);
   
-      req.user = {
-        name: newUser.name,
-        email: newUser.email,
-        id: newUser.id
-      };
+      req.user = newUser
   
       next(); 
     } catch (error) {

@@ -6,5 +6,5 @@ import { authorize } from "../auth/authorize";
 const authRoutes = express.Router();
 
 authRoutes.post("/signup", register, generateToken); 
-authRoutes.post("/login", authorize)
+authRoutes.post("/login", authorize);
 export default authRoutes;

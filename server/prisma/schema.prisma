@@ -11,11 +11,16 @@ model User {
   id         String   @id @map("_id") @default(auto()) @db.ObjectId
   email      String   @unique
   name       String
-  passwordHash String
+  passwordHash String 
+  targetWeight Float?
+  currentWeight Float?
+  Goal       String?
+  isVirgin   Boolean  @default(true)
   workouts   Workout[]
   routines   Routine[]
   weightLogs WeightLog[]
   nutrition  NutritionLog[]
+  exercises  WorkoutExercise[]
   createdAt  DateTime @default(now())
 }
 
@@ -30,12 +35,13 @@ model Workout {
 
 model WorkoutExercise {
   id        String   @id @map("_id") @default(auto()) @db.ObjectId
-  workoutId String   @db.ObjectId
-  workout   Workout @relation(fields: [workoutId], references: [id])
+  workoutId String?  @db.ObjectId
+  workout   Workout? @relation(fields: [workoutId], references: [id])
+  userId    String   @db.ObjectId 
+  user      User     @relation(fields: [userId], references: [id])
   name      String
   sets      SetLog[]
 }
-
 model SetLog {
   id           String   @id @map("_id") @default(auto()) @db.ObjectId
   exerciseId   String   @db.ObjectId

@@ -1,9 +1,7 @@
+import { User } from "@prisma/client";
 import { Request } from "express";
 
-export default interface AuthUser extends Request {
-  user?: {
-    name: string;
-    email: string;
-    id?:string
-  };
+export default interface AuthRequest extends Request {
+  user?: User;
 }
+

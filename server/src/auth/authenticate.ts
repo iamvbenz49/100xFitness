@@ -1,28 +1,36 @@
-import { NextFunction, Request, Response } from "express";
-import jwt  from "jsonwebtoken";
+import { NextFunction, Response } from "express";
+import jwt from "jsonwebtoken";
+import { findUserByEmail } from "../services/userService";
+import { User } from "@prisma/client"; 
+import AuthRequest from "../interfaces/auth/AuthRequest";
 
+export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
-export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
-    // const authHeader = req.headers['authorization'];
-    // const token = authHeader && authHeader.split(' ')[1]; 
-  
-    // if (token == null) return res.sendStatus(401); 
+    if (!token) {
+        res.sendStatus(401);
+        return;
+    } 
 
-    // jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
-    //     if (err) return res.sendStatus(403); 
-    //     // console.log(user)
-    //     // Ensure user is defined and contains gmail
-    //     if (!user || !user.email) {
-    //         return res.sendStatus(403); // Forbidden if user or gmail is not found
-    //     }
-  
-    //     const foundUser = await findFarmerByGmail(user.email); 
-  
-    //     if (!foundUser) {
-    //         return res.sendStatus(404); // Not Found if user is not found
-    //     }
-  
-    //     req.user = foundUser; // Attach the found user to the request object
-    //     next();
-    // });
+    jwt.verify(token, process.env.JWT_SECRET as string, async (err, decoded) => {
+        if (err) {
+            res.sendStatus(403);
+            return;
+        } 
+
+        if (!decoded || typeof decoded !== "object" || !("email" in decoded)) {
+            res.sendStatus(403);
+            return;
+        }
+
+        const user: User | null = await findUserByEmail(decoded.email as string);
+        if (!user) {
+            res.sendStatus(404);
+            return;
+        }  
+
+        req.user = user; 
+        next(); 
+    });
 };

@@ -18,7 +18,7 @@ export const authorize = async (req: AuthRequest, res: Response) => {
     }
 
     const isPasswordValid = await checkPassword(password, user.passwordHash);
-
+    console.log(isPasswordValid)
     if (!isPasswordValid) {
       res.status(400).json({ message: "Invalid Login" });
       return
@@ -32,8 +32,6 @@ export const authorize = async (req: AuthRequest, res: Response) => {
       { email: user.email, id: user.id }, 
       process.env.JWT_SECRET
     );
-
-    req.user = { name: user.name, email: user.email, id: user.id };
 
     res.locals.token = token;
     res.status(200).json({
