@@ -17,22 +17,21 @@ model User {
   Goal       String?
   isVirgin   Boolean  @default(true)
   workouts   Workout[]
-  routines   Routine[]
   weightLogs WeightLog[]
   nutrition  NutritionLog[]
   exercises  WorkoutExercise[]
   createdAt  DateTime @default(now())
 }
-
+// workout
 model Workout {
-  id        String   @id @map("_id") @default(auto()) @db.ObjectId
+  id        String      @id @map("_id") @default(auto()) @db.ObjectId
   userId    String      @db.ObjectId
   user      User        @relation(fields: [userId], references: [id])
   name      String
   exercises WorkoutExercise[]
   createdAt DateTime    @default(now())
 }
-
+// routine
 model WorkoutExercise {
   id        String   @id @map("_id") @default(auto()) @db.ObjectId
   workoutId String?  @db.ObjectId
@@ -42,6 +41,7 @@ model WorkoutExercise {
   name      String
   sets      SetLog[]
 }
+
 model SetLog {
   id           String   @id @map("_id") @default(auto()) @db.ObjectId
   exerciseId   String   @db.ObjectId
@@ -49,25 +49,6 @@ model SetLog {
   reps         Int
   weight       Float
   isPersonalBest Boolean @default(false)
-}
-
-model Routine {
-  id        String   @id @map("_id") @default(auto()) @db.ObjectId
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  name      String
-  exercises RoutineExercise[]
-  createdAt DateTime    @default(now())
-}
-
-model RoutineExercise {
-  id        String  @id @map("_id") @default(auto()) @db.ObjectId
-  routineId String  @db.ObjectId
-  routine   Routine @relation(fields: [routineId], references: [id])
-  name      String
-  sets      Int
-  reps      Int
-  weight    Float
 }
 
 model WeightLog {

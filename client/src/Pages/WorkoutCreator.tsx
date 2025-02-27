@@ -1,45 +1,48 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { Exercise } from "../interfaces/Exercise";
+import ExerciseInputProps from "../interfaces/ExerciseInput";
 
-interface Exercise {
-  id: number;
-  name: string;
-  sets: number;
-  reps: number;
-  weight: number;
-}
-
-const sampleExercises = [
-  "Bench Press",
-  "Squat",
-  "Deadlift",
-  "Pull-ups",
-  "Push-ups",
-  "Shoulder Press",
-  "Bicep Curls",
-  "Tricep Dips",
-  "Leg Press",
-  "Plank",
-];
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const WorkoutCreator = () => {
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [sampleExercises, setSampleExercises] = useState<string[]>([]);
 
+  // Fetch sample exercises from the backend
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isRunning) {
-      interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isRunning]);
+    const fetchExercises = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("token", token)
+        if (!token) {
+            console.error("No token found, user may not be authenticated.");
+            return;
+        }
+
+        const response = await axios.get(`${BACKEND_URL}exercise`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, 
+            },
+        });
+        console.log(response.data)
+        if (response.data) {
+          setSampleExercises(response.data.map((exercise: any) => exercise.name));
+        }
+      } catch (error) {
+        console.error("Error fetching exercises:", error);
+      }
+    };
+
+    fetchExercises();
+  }, []);
 
   const addExercise = () => {
-    setExercises([
-      ...exercises,
-      { id: Date.now(), name: "", sets: 0, reps: 0, weight: 0 },
-    ]);
+    setExercises([...exercises, { id: Date.now(), name: "", sets: 0, reps: 0, weight: 0 }]);
   };
 
   const updateExercise = (id: number, field: keyof Exercise, value: string | number) => {
@@ -47,24 +50,25 @@ const WorkoutCreator = () => {
   };
 
   const handleSubmit = async () => {
-    const workoutData = {
-      name: workoutName,
-      exercises,
-      duration: timer,
-    };
+    const workoutData = { name: workoutName, exercises};
 
-    const response = await fetch("/api/workouts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(workoutData),
-    });
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${BACKEND_URL}/exercise`, workoutData, {
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include token
+        },
+      });
 
-    if (response.ok) {
-      alert("Workout saved!");
-      setWorkoutName("");
-      setExercises([]);
-      setTimer(0);
-      setIsRunning(false);
+      if (response.data) {
+        setWorkoutName("");
+        setExercises([]);
+        setTimer(0);
+        setIsRunning(false);
+      }
+    } catch (error) {
+      console.error("Error saving workout:", error);
     }
   };
 
@@ -79,7 +83,9 @@ const WorkoutCreator = () => {
         className="border p-2 w-full mb-4"
       />
 
-      <p className="text-lg">Time: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}</p>
+      <p className="text-lg">
+        Time: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}
+      </p>
       <button onClick={() => setIsRunning(!isRunning)} className="bg-blue-500 text-white px-4 py-2 rounded">
         {isRunning ? "Pause" : "Start"} Timer
       </button>
@@ -89,6 +95,7 @@ const WorkoutCreator = () => {
           key={exercise.id}
           exercise={exercise}
           updateExercise={updateExercise}
+          sampleExercises={sampleExercises}
         />
       ))}
 
@@ -103,12 +110,7 @@ const WorkoutCreator = () => {
   );
 };
 
-interface ExerciseInputProps {
-  exercise: Exercise;
-  updateExercise: (id: number, field: keyof Exercise, value: string | number) => void;
-}
-
-const ExerciseInput = ({ exercise, updateExercise }: ExerciseInputProps) => {
+const ExerciseInput = ({ exercise, updateExercise, sampleExercises }: ExerciseInputProps & { sampleExercises: string[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -121,7 +123,7 @@ const ExerciseInput = ({ exercise, updateExercise }: ExerciseInputProps) => {
     } else {
       setSuggestions([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, sampleExercises]);
 
   return (
     <div className="border p-2 my-2 relative">
@@ -136,7 +138,6 @@ const ExerciseInput = ({ exercise, updateExercise }: ExerciseInputProps) => {
         className="border p-1 w-full mb-1"
       />
 
-      {/* Suggestions Dropdown */}
       {suggestions.length > 0 && (
         <ul className="absolute bg-white border w-full">
           {suggestions.map((suggestion, index) => (

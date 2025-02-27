@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -47,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const decodedUser = jwtDecode<User>(token);
       setUser(decodedUser);
 
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Login failed", error);
     }
