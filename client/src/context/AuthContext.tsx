@@ -2,8 +2,9 @@ import { createContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import AuthContextType from "../interface/AuthContextType";
-import User from "../interface/User";
+import User from "../interfaces/User";
+import AuthContextType from "../interfaces/AuthContextType";
+
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
