@@ -9,16 +9,21 @@ const exerciseRoutes = express.Router();
 exerciseRoutes.post("/exercise", authenticate, async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) {
-       res.status(403).json({ message: "User not authenticated" });
-       return
+      res.status(403).json({ message: "User not authenticated" });
+      return
     }
-    if(!req.body) {
-      res.status(403).json({ message: "No data sent bruh" });
-       return
-    }
+
     const { name, exercises } = req.body;
-    console.log("oii", name, exercises);
-    const workout = await createWorkoutWithExercises(req.user.id, name, exercises);;
+    
+    if (!name ||  exercises.length === 0) {
+      console.log("Workout name and exercises are required")
+      res.status(400).json({ message: "Workout name and exercises are required" });
+      return
+    }
+
+    console.log("Received Workout:", name, exercises);
+
+    const workout = await createWorkoutWithExercises(req.user.id, name, exercises);
 
     res.status(201).json(workout);
   } catch (error: any) {
@@ -26,6 +31,7 @@ exerciseRoutes.post("/exercise", authenticate, async (req: AuthRequest, res: Res
     res.status(500).json({ error: error.message || "Failed to create exercise" });
   }
 });
+
 
 exerciseRoutes.post("/workout", authenticate, async (req: AuthRequest, res: Response) => {
   try {

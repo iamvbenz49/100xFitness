@@ -2,22 +2,27 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-
-export const createWorkoutWithExercises = async ( userId, name, exercises ) => {
+export const createWorkoutWithExercises = async (
+  userId: string,
+  name: string,
+  exercises: { name: string; sets: { reps: number; weight: number }[] }[]
+) => {
   try {
-    if(!exercises) {
-        return
+    if (!exercises || exercises.length === 0) {
+      throw new Error("Exercises cannot be empty");
     }
+
+    // Create Workout
     const workout = await prisma.workout.create({
       data: {
         userId,
         name,
         exercises: {
-          create: exercises.map((exercise: { name: any; sets: { reps: any; weight: any; }[]; }) => ({
+          create: exercises.map((exercise) => ({
             userId,
             name: exercise.name,
             sets: {
-              create: exercise.sets.map((set: { reps: any; weight: any; }) => ({
+              create: exercise.sets.map((set) => ({
                 reps: set.reps,
                 weight: set.weight,
               })),

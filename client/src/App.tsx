@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/protectedRoute";
+import IsLoggedInRoute from "./routes/IsLoggedInRoute";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
@@ -11,15 +12,18 @@ import WorkoutCreator from "./Pages/WorkoutCreator";
 const App: React.FC = () => {
   const location = useLocation(); // Get current path
 
-  // Hide Navbar on Login & Signup pages
-  const hideNavbar = location.pathname === "/login" || location.pathname === "/signup";
+  const hideNavbar = location.pathname !== "/login" && location.pathname !== "/signup";
 
   return (
     <AuthProvider>
-      {!hideNavbar && <Navbar />}
+      {hideNavbar && <Navbar />}
       <Routes>
 
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={
+          <IsLoggedInRoute>
+            <Login />
+          </IsLoggedInRoute>
+        } />
         <Route path="/signup" element={<Signup />} />
 
         <Route
