@@ -1,18 +1,18 @@
-import { useContext, useState, FormEvent } from "react";
-import { AuthContext } from "../context/AuthContext";
+import {  useState, FormEvent } from "react";
+// import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection"; // Import left section
 
 const Login: React.FC = () => {
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (auth && auth.login) {
-      await auth.login(email, password);
-    }
+    // if (auth && auth.login) {
+    //   await auth.login(email, password);
+    // }
   };
 
   return (
