@@ -20,9 +20,9 @@ const App: React.FC = () => {
       <Routes>
 
         <Route path="/login" element={
-          <IsLoggedInRoute>
+          // <IsLoggedInRoute>
             <Login />
-          </IsLoggedInRoute>
+          // </IsLoggedInRoute>
         } />
         <Route path="/signup" element={<Signup />} />
 
