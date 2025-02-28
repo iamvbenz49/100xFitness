@@ -10,7 +10,7 @@ import Navbar from "./Components/Navbar"; // Import Navbar
 import WorkoutCreator from "./Pages/WorkoutCreator";
 
 const App: React.FC = () => {
-  const location = useLocation(); // Get current path
+  const location = useLocation(); 
 
   const hideNavbar = location.pathname !== "/login" && location.pathname !== "/signup";
 
@@ -29,9 +29,9 @@ const App: React.FC = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
         <Route
