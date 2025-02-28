@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/protectedRoute";
-// import IsLoggedInRoute from "./routes/IsLoggedInRoute";
+import IsLoggedInRoute from "./routes/IsLoggedInRoute";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
@@ -10,7 +10,7 @@ import Navbar from "./Components/Navbar"; // Import Navbar
 import WorkoutCreator from "./Pages/WorkoutCreator";
 
 const App: React.FC = () => {
-  const location = useLocation(); 
+  const location = useLocation(); // Get current path
 
   const hideNavbar = location.pathname !== "/login" && location.pathname !== "/signup";
 
@@ -20,18 +20,18 @@ const App: React.FC = () => {
       <Routes>
 
         <Route path="/login" element={
-          // <IsLoggedInRoute>
+          <IsLoggedInRoute>
             <Login />
-          // </IsLoggedInRoute>
+          </IsLoggedInRoute>
         } />
         <Route path="/signup" element={<Signup />} />
 
         <Route
           path="/"
           element={
-            // <ProtectedRoute>
+            <ProtectedRoute>
               <Home />
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route
