@@ -41,7 +41,7 @@ const WorkoutGoalsForm = () => {
       );
 
       console.log("Response:", response.data);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setError("Failed to update workout goals.");
       console.error("Error updating workout goals:", error);

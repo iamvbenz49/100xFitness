@@ -6,11 +6,15 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
 import WorkoutGoalsForm from "./Pages/WorkoutGoalsForm";
-import Navbar from "./Components/Navbar"; // Import Navbar
-import WorkoutCreator from "./Pages/WorkoutCreator";
+import Navbar from "./Components/Navbar"; 
+import WorkoutForm from "./Pages/WorkoutForm";
+import WorkoutHistory from "./Pages/History";
+import WeightHistory from "./Pages/WeightHistory";
+import MacronutrientTracker from "./Pages/MacronutrientTracker";
+import Profile from "./Pages/Profile";
 
 const App: React.FC = () => {
-  const location = useLocation(); // Get current path
+  const location = useLocation(); 
 
   const hideNavbar = location.pathname !== "/login" && location.pathname !== "/signup";
 
@@ -48,7 +52,7 @@ const App: React.FC = () => {
           path="/history"
           element={
             <ProtectedRoute>
-              <div>History Page</div>
+              <WorkoutHistory />
             </ProtectedRoute>
           }
         />
@@ -56,7 +60,7 @@ const App: React.FC = () => {
           path="/weight-track"
           element={
             <ProtectedRoute>
-              <div>Weight & Track Page</div>
+              <WeightHistory />
             </ProtectedRoute>
           }
         />
@@ -64,7 +68,7 @@ const App: React.FC = () => {
           path="/macros"
           element={
             <ProtectedRoute>
-              <div>Macros Page</div>
+             <MacronutrientTracker />
             </ProtectedRoute>
           }
         />
@@ -72,7 +76,7 @@ const App: React.FC = () => {
           path="/profile"
           element={
             <ProtectedRoute>
-              <div>Profile Page</div>
+              <Profile />
             </ProtectedRoute>
           }
         />
@@ -80,7 +84,7 @@ const App: React.FC = () => {
           path="/routine"
           element={
             <ProtectedRoute>
-              <WorkoutCreator />
+              <WorkoutForm />
             </ProtectedRoute>
           }
         />

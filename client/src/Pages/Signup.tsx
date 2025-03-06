@@ -2,6 +2,7 @@ import { useContext, useState, FormEvent } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection";
+import { Link } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -29,7 +30,7 @@ const Signup: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h2 className="text-4xl font-extrabold text-white mb-6">Create an Account</h2>
-        <p className="text-gray-400 text-lg mb-6">Join FitTrack and start your journey!</p>
+        <p className="text-gray-400 text-lg mb-6">Join 100x Fitness and start your journey!</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <motion.input
@@ -71,9 +72,9 @@ const Signup: React.FC = () => {
 
         <p className="mt-6 text-gray-400">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-400 font-semibold hover:underline">
+          <Link to="/login" className="text-blue-400 font-semibold hover:underline">
             Login
-          </a>
+          </Link>
         </p>
       </motion.div>
     </div>

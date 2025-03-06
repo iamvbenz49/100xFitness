@@ -5,10 +5,11 @@ import { User } from "@prisma/client";
 import AuthRequest from "../interfaces/auth/AuthRequest";
 
 export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+
     const authHeader = req.headers["authorization"];
 
     const token = authHeader && authHeader.split(" ")[1];
-
+    console.log(token)
     if (!token) {
         res.sendStatus(401);
         return;

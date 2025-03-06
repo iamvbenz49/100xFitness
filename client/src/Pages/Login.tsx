@@ -2,6 +2,7 @@ import { useContext, useState, FormEvent } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection"; // Import left section
+import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -60,9 +61,9 @@ const Login: React.FC = () => {
 
         <p className="mt-6 text-gray-400">
           Don't have an account?{" "}
-          <a href="/signup" className="text-blue-400 font-semibold hover:underline">
+          <Link to="/signup" className="text-blue-400 font-semibold hover:underline">
             Sign Up
-          </a>
+          </Link>
         </p>
       </motion.div>
     </div>

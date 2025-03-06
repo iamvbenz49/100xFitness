@@ -3,66 +3,83 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id         String   @id @map("_id") @default(auto()) @db.ObjectId
-  email      String   @unique
-  name       String
-  passwordHash String 
-  targetWeight Float?
+  id            String            @id @default(uuid()) 
+  email         String            @unique
+  name          String
+  passwordHash  String
+  targetWeight  Float?
   currentWeight Float?
-  Goal       String?
-  isVirgin   Boolean  @default(true)
-  workouts   Workout[]
-  weightLogs WeightLog[]
-  nutrition  NutritionLog[]
-  exercises  WorkoutExercise[]
-  createdAt  DateTime @default(now())
+  Goal          String?
+  isVirgin      Boolean           @default(true)
+  workouts      Workout[]
+  weightLogs    WeightLog[]
+  nutrition     NutritionLog[]
+  exercises     WorkoutExercise[]
+  createdAt     DateTime          @default(now())
 }
-// workout
+
 model Workout {
-  id        String      @id @map("_id") @default(auto()) @db.ObjectId
-  userId    String      @db.ObjectId
-  user      User        @relation(fields: [userId], references: [id])
+  id        String              @id @default(uuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
-  exercises WorkoutExercise[]
-  createdAt DateTime    @default(now())
+  exercises WorkoutToExercise[]
+  createdAt DateTime            @default(now())
+
+  @@unique([name, userId])
 }
-// routine
+
 model WorkoutExercise {
-  id        String   @id @map("_id") @default(auto()) @db.ObjectId
-  workoutId String?  @db.ObjectId
-  workout   Workout? @relation(fields: [workoutId], references: [id])
-  userId    String   @db.ObjectId 
-  user      User     @relation(fields: [userId], references: [id])
-  name      String
-  sets      SetLog[]
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name   String
+
+  workouts WorkoutToExercise[]
+  SetLog   SetLog[]
+
+  @@unique([name, userId])
 }
 
+// NEW Join Table (Workout ⇆ WorkoutExercise)
+model WorkoutToExercise {
+  id         String          @id @default(uuid())
+  workoutId  String
+  exerciseId String
+  workout    Workout         @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise   WorkoutExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([workoutId, exerciseId]) 
+}
+
+// SetLog (Exercise Sets)
 model SetLog {
-  id           String   @id @map("_id") @default(auto()) @db.ObjectId
-  exerciseId   String   @db.ObjectId
-  exercise     WorkoutExercise @relation(fields: [exerciseId], references: [id])
-  reps         Int
-  weight       Float
-  isPersonalBest Boolean @default(false)
+  id         String          @id @default(uuid())
+  exerciseId String
+  exercise   WorkoutExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  reps       Int
+  weight     Float
 }
 
+// WeightLog
 model WeightLog {
-  id        String   @id @map("_id") @default(auto()) @db.ObjectId
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   weight    Float
   createdAt DateTime @default(now())
 }
 
+// NutritionLog
 model NutritionLog {
-  id        String   @id @map("_id") @default(auto()) @db.ObjectId
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   calories  Int
   protein   Float
   carbs     Float

@@ -7,12 +7,12 @@ const testimonials = [
     author: "Steve Rogers (Captain America)" 
   },
   { 
-    text: "A weak body can’t protect a city. I train because Gotham depends on me. You train because the world needs you at your best. No excuses—100x Fitness is your Batcave.", 
-    author: "Bruce Wayne (Batman)" 
+    text: "They say fitness improves your stamina. So next time you last more than 30 seconds, you can thank 100x Fitness and not your ex’s disappointment.", 
+    author: "Wade Wilson (Deadpool)" 
   },
   { 
-    text: "This is your life, and it’s ending one workout at a time. Pain is temporary. Weakness is a lie. At 100x Fitness, we break limits, not promises.", 
-    author: "Tyler Durden" 
+    text: "A weak body can’t protect a city. I train because Gotham depends on me. You train because the world needs you at your best. No excuses—100x Fitness is your Batcave.", 
+    author: "Bruce Wayne (Batman)" 
   },
   { 
     text: "I wasn’t born strong—I earned it under a yellow sun. You don’t need Krypton, just commitment. Push past limits. At 100x Fitness, your strength is your legacy.", 
@@ -21,10 +21,6 @@ const testimonials = [
   { 
     text: "Pain is weakness leaving the body. At 100x Fitness, we don’t just push past pain—we conquer it. Train like your life depends on it, because someday, it might.", 
     author: "Frank Castle (The Punisher)" 
-  },
-  { 
-    text: "The game is always afoot, and the body must match the mind. Logic dictates that strength enhances deduction. Stay ready with 100x Fitness.", 
-    author: "Sherlock Holmes" 
   },
   { 
     text: "When I was a boy, they told me power belonged to the wealthy. They were wrong. True power belongs to the strong. At 100x Fitness, we don’t ask for respect—we take it. One lift at a time.", 
@@ -38,7 +34,7 @@ const AuthLeftSection: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 4000); // Change quote every 4 seconds
+    }, 4000); 
 
     return () => clearInterval(interval);
   }, []);
