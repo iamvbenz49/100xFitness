@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiClock, FiBarChart2, FiUsers, FiUser } from "react-icons/fi";
+import { FiHome, FiClock, FiBarChart2, FiUsers, FiUser, FiLogOut } from "react-icons/fi";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
-
+  const auth = useContext(AuthContext);
   const linkClasses = (path: string) =>
     `flex flex-col sm:flex-row items-center gap-3 px-5 py-4 rounded-lg text-lg font-semibold transition duration-300 ${
       location.pathname === path
@@ -29,6 +30,14 @@ const Navbar: React.FC = () => {
       <Link to="/profile" className={linkClasses("/profile")}>
         <FiUser size={44} /> <span className="hidden sm:inline text-xl">Profile</span>
       </Link>
+      {auth && auth.logout && (
+        <button
+          onClick={auth.logout}
+          className="flex flex-col sm:flex-row items-center gap-3 px-5 py-4 rounded-xl text-lg font-semibold text-gray-300 hover:text-white hover:bg-red-600 transition duration-300"
+        >
+          <FiLogOut size={28} /> <span className="hidden sm:inline text-lg">Logout</span>
+        </button>
+      )}
     </nav>
   );
 };

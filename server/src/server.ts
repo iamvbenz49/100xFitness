@@ -7,6 +7,7 @@ import workoutRoutes from "./routes/workouts";
 import historyRoutes from "./routes/history";
 import weightRoutes from "./routes/weight";
 import macrosRoutes from "./routes/macros";
+import userRoutes from "./routes/user";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/api", workoutRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/macros", macrosRoutes)
+app.use("/api/user", userRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import { authenticate } from "../auth/authenticate";
-import { getUserWorkouts } from "../services/workoutServices";
+import { getUserWorkoutsByUserId } from "../services/workoutServices";
 
 const historyRoutes = express.Router();
 
@@ -11,7 +11,7 @@ historyRoutes.get("/", authenticate, async (req, res) => {
         res.json({message:"user illada"});
         return;
       }
-      const history = await getUserWorkouts(req.user.id); 
+      const history = await getUserWorkoutsByUserId(req.user.id); 
       res.json({ data: history});
     } catch (error) {
       console.error("Error updating target:", error);

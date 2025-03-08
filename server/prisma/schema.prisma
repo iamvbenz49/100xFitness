@@ -29,6 +29,7 @@ model Workout {
   user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
   exercises WorkoutToExercise[]
+  sets      SetLog[]
   createdAt DateTime            @default(now())
 
   @@unique([name, userId])
@@ -64,6 +65,8 @@ model SetLog {
   exercise   WorkoutExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   reps       Int
   weight     Float
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
 // WeightLog

@@ -16,6 +16,7 @@ const WeightHistory = () => {
   const [weightData, setWeightData] = useState<WeightLog[]>([]);
   const [newWeight, setNewWeight] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState<Boolean>(true);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -25,12 +26,11 @@ const WeightHistory = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // Format createdAt for better display
         const formattedData = response.data.map((log: WeightLog) => ({
           ...log,
-          createdAt: new Date(log.createdAt).toISOString().split("T")[0], // YYYY-MM-DD format
+          createdAt: new Date(log.createdAt).toISOString().split("T")[0],
         }));
-
+        setIsDataLoading(false);
         setWeightData(formattedData);
       } catch (error) {
         console.error("Error fetching weight logs:", error);
@@ -43,7 +43,7 @@ const WeightHistory = () => {
     e.preventDefault();
     if (!newWeight) return;
 
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     const newEntry = { weight: parseFloat(newWeight) };
 
@@ -62,12 +62,12 @@ const WeightHistory = () => {
     } catch (error) {
       console.error("Error adding weight log:", error);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center h-screen bg-gray-950 p-6">
+    <div className="flex flex-col items-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6">
       <motion.form
         onSubmit={handleAddWeight}
         className="flex gap-4 items-center bg-gray-800/60 backdrop-blur-md p-5 rounded-xl border border-gray-700 shadow-xl"
@@ -104,7 +104,7 @@ const WeightHistory = () => {
       </motion.form>
 
       <motion.div
-        className="w-full max-w-5xl h-3/4 p-6 border border-gray-700 rounded-xl bg-gray-900/80 mt-6 shadow-2xl"
+        className="w-full max-w-5xl h-3/4 p-6 border rounded-xl border-gray-700 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md border border-gray-700 mt-6 shadow-2xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -118,7 +118,7 @@ const WeightHistory = () => {
                   return new Date(date).toLocaleDateString("en-US", {
                     day: "2-digit",
                     month: "short",
-                  }); // Example: "05 Mar"
+                  });
                 }}
                 stroke="#CBD5E0"
               />
@@ -140,7 +140,14 @@ const WeightHistory = () => {
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-gray-400 text-center">No weight data available.</p>
+          isDataLoading ? (
+                <div className="flex items-center justify-center h-screen">
+                  <motion.div className="text-white text-2xl justify-center font-bold mb-70">
+                    Loading...
+                  </motion.div>
+                </div>
+          ) :
+          (<p className="text-gray-400 text-center">No weight data available.</p>)
         )}
       </motion.div>
     </div>

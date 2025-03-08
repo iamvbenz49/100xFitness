@@ -1,7 +1,5 @@
-import SetLog from "./SetLog";
-
 export default interface Exercise {
+    exercise: any;
     id: string;
     name: string;
-    sets: SetLog[];
 }

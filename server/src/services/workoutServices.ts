@@ -3,6 +3,33 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
+export const getUserWorkoutsByUserId = async (userId: string) => {
+  try {
+    const workouts = await prisma.workout.findMany({
+      where: { userId },
+      include: {
+        exercises: {
+          include: {
+            exercise: {
+              include: {
+                SetLog: true, 
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!workouts.length) {
+      throw new Error("No workouts found for this user.");
+    }
+
+    return workouts;
+  } catch (error) {
+    console.error(`Error fetching workouts for user ${userId}:`, error);
+    throw new Error("Failed to retrieve workouts. Please try again later.");
+  }
+};
 
 
 export const getUserWorkoutExercises = async (userId: string) => {
@@ -22,7 +49,6 @@ export const getUserWorkoutExercises = async (userId: string) => {
     throw new Error("Failed to fetch workout exercises");
   }
 };
-
 
 export const createWorkout = async (sessionName: string, userId: string, workouts: any) => {
   try {

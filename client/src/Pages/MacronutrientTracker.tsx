@@ -21,6 +21,7 @@ const MacronutrientTracker: React.FC = () => {
   const [newMacros, setNewMacros] = useState({ protein: "", carbs: "", fats: "" });
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState<Boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const MacronutrientTracker: React.FC = () => {
       });
       if (response.data) {
         setMacroData(response.data.data);
+        setIsDataLoading(false);
       }
     } catch (error: any) {
       console.log(error.message)
@@ -82,7 +84,7 @@ const MacronutrientTracker: React.FC = () => {
     : [];
 
   return (
-    <div className="flex h-screen bg-gray-950 p-6">
+    <div className="flex h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6">
       <div className="flex flex-col items-center w-3/4">
         <motion.div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg border border-gray-700 shadow-md">
           <FaCalendarAlt className="text-blue-400 text-lg" />
@@ -99,7 +101,7 @@ const MacronutrientTracker: React.FC = () => {
 
         <motion.form
           onSubmit={handleAddMacros}
-          className="w-full max-w-lg bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-xl mt-6 space-y-4"
+          className="w-full max-w-lg border-gray-700 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md border border-gray-700 p-6 rounded-lg shadow-xl mt-6 space-y-4"
         >
           <div className="grid grid-cols-3 gap-4">
             {[
@@ -121,23 +123,24 @@ const MacronutrientTracker: React.FC = () => {
             ))}
           </div>
 
-          <motion.button
-          type="submit"
-          className={`px-5 py-2 rounded-lg font-medium shadow-lg transition-all focus:ring-2 focus:ring-blue-500 ${
+          <div className="flex justify-center">
+    <motion.button
+        type="submit"
+        className={`px-5 py-2 rounded-lg font-medium shadow-lg transition-all focus:ring-2 focus:ring-blue-500 ${
             loading
-              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/50"
-          }`}
-          whileHover={!loading ? { scale: 1.08 } : {}}
-          whileTap={!loading ? { scale: 0.95 } : {}}
-          disabled={loading}
-        >
-          {loading ? "⏳ Adding..." : "➕ Add"}
-        </motion.button>
-        </motion.form>
+            ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/50"
+        }`}
+        whileHover={!loading ? { scale: 1.08 } : {}}
+        whileTap={!loading ? { scale: 0.95 } : {}}
+        disabled={loading}
+    >
+    {loading ? "⏳ Adding..." : "➕ Add"}
+  </motion.button>
+</div>
 
-        {/* Chart */}
-        <motion.div className="w-full max-w-lg h-80 p-6 border border-gray-700 rounded-xl bg-gray-900 mt-6 shadow-2xl flex items-center justify-center">
+        </motion.form>
+        <motion.div className="w-full max-w-lg h-80 p-6 border-gray-700 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md border border-gray-700 rounded-xl  mt-6 shadow-2xl flex items-center justify-center">
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -155,23 +158,30 @@ const MacronutrientTracker: React.FC = () => {
         </motion.div>
       </div>
 
-      <motion.div className="w-1/4 bg-gray-900 p-4 border border-gray-700 rounded-lg shadow-xl overflow-y-auto max-h-full ml-6">
-        <h3 className="text-white text-lg font-semibold mb-3">📅 Daily Macro History</h3>
-        {macroData.length > 0 ? (
-          <ul className="text-gray-300 space-y-2">
-            {macroData.slice().reverse().map((entry) => (
-              <li key={entry.id} className="flex justify-between border-b border-gray-700 pb-2">
-                <span>{dayjs(entry.createdAt).format("MMM D, YYYY")}</span>
-                <span className="text-blue-400">{entry.protein}P</span>
-                <span className="text-yellow-400">{entry.carbs}C</span>
-                <span className="text-red-400">{entry.fats}F</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-400 text-center">No records found.</p>
-        )}
+      <motion.div className="w-1/4 flex-row p-4 border-gray-700 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md border border-gray-700 rounded-lg shadow-xl overflow-y-auto max-h-full ml-6">
+  <h3 className="text-white text-lg font-semibold mb-3">📅 Daily Macro History</h3>
+  {macroData.length > 0 ? (
+    <ul className="text-gray-300 space-y-2">
+      {macroData.slice().reverse().map((entry) => (
+        <li key={entry.id} className="flex justify-between border-b border-gray-700 pb-2">
+          <span>{dayjs(entry.createdAt).format("MMM D, YYYY")}</span>
+          <span className="text-blue-400">{entry.protein}P</span>
+          <span className="text-yellow-400">{entry.carbs}C</span>
+          <span className="text-red-400">{entry.fats}F</span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    isDataLoading ? (
+      <motion.div className="flex justify-center items-center h-full">
+        <p className="text-white text-2xl font-bold">Loading...</p>
       </motion.div>
+    ) : (
+      <p className="text-gray-400 text-center">No records found.</p>
+    )
+  )}
+</motion.div>
+
     </div>
   );
 };

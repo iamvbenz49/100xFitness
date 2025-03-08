@@ -1,15 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
-  const token = localStorage.getItem("token");
-  console.log("token", token)
-  if (!token) {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext?.isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
