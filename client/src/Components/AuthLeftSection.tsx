@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { FiGithub } from "react-icons/fi";
 
 const testimonials = [
   { 
@@ -30,7 +31,19 @@ const testimonials = [
 
 const AuthLeftSection: React.FC = () => {
   const [index, setIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (!isHovered) {
+      interval = setInterval(() => {
+        setIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+      }, 10000); 
+    }
+
+    return () => clearInterval(interval);
+  }, [isHovered]); 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
@@ -46,29 +59,42 @@ const AuthLeftSection: React.FC = () => {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
     >
+      <motion.a
+        href="https://github.com/iamvbenz49/100xFitness"
+        target="_blank"
+        className="flex items-center justify-center lg:justify-start gap-2 bg-gray-900 px-5 py-2 rounded-lg text-white hover:bg-gray-800 transition duration-300 mb-6 w-fit mx-auto lg:mx-0"
+        whileHover={{ scale: 1.05 }}
+      >
+        <FiGithub size={24} />
+        <span className="text-lg font-semibold">Star & Contribute</span>
+      </motion.a>
+
       <h1 className="text-8xl font-extrabold text-blue-400 mb-6">100x Fitness</h1>
       <p className="text-3xl text-gray-300 italic mb-8">
         "Coz 10x ain't enough"
       </p>
 
-      {/* Testimonial Slideshow */}
-      <div className="h-48 w-2/3 overflow-hidden relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 1 }}
-            className="text-gray-400 text-lg italic text-center lg:text-left"
-          >
-            “{testimonials[index].text}”
-            <br />
-            <span className="text-blue-400 font-semibold">- {testimonials[index].author}</span>
-          </motion.div>
-        </AnimatePresence>
-      </div>
 
+      <div
+        className="h-48 w-2/3 overflow-hidden relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 1 }}
+          className="text-gray-400 text-lg italic text-center lg:text-left"
+        >
+          “{testimonials[index].text}”
+          <br />
+          <span className="text-blue-400 font-semibold">- {testimonials[index].author}</span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
 
       <div className="flex justify-center lg:justify-start mt-4">
         {testimonials.map((_, i) => (

@@ -3,7 +3,8 @@
 
 ##  Features  
 - [ ] Fix Database schema for history retrieval  
-- [ ] Implement past routine tracking  
+- [ ] Login as Guest
+- [ ] Implement past workouts as routines  
 - [ ] AI-generated diet plan for users  
 
 
