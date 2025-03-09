@@ -8,10 +8,11 @@ const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const WorkoutManager = () => {
   const navigate = useNavigate();
-  const [sessionName, setSessionName] = useState(""); 
+  const [sessionName, setSessionName] = useState("");
   const [workouts, setWorkouts] = useState<{ id: string; name: string; sets: { weight: number; reps: number }[] }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [availableWorkouts, setAvailableWorkouts] = useState<{ id: string; name: string }[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -24,7 +25,7 @@ const WorkoutManager = () => {
         });
 
         if (response.data.success) {
-          setAvailableWorkouts(response.data.data); 
+          setAvailableWorkouts(response.data.data);
         }
       } catch (error) {
         console.error("Error fetching workouts:", error);
@@ -46,12 +47,14 @@ const WorkoutManager = () => {
     setSearchQuery("");
   };
 
-  // ✅ Finish workout session
+  // ✅ Finish workout session (with disabled button while loading)
   const finishWorkout = async () => {
     if (!sessionName.trim()) {
       alert("Please enter a name for your workout session.");
       return;
     }
+
+    setLoading(true); // Disable button during request
 
     try {
       const token = localStorage.getItem("token");
@@ -71,12 +74,13 @@ const WorkoutManager = () => {
       navigate("/");
     } catch (error) {
       console.error("Error saving workout:", error);
+    } finally {
+      setLoading(false); // Re-enable button
     }
   };
 
   return (
-    <div className="flex flex-col items-center  h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 overflow-hidden">
-      {/* Workout Session Name Input */}
+    <div className="flex flex-col items-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 overflow-hidden">
       <input
         type="text"
         placeholder="Enter workout session name..."
@@ -85,7 +89,6 @@ const WorkoutManager = () => {
         className="w-full max-w-5xl p-3 mb-4 bg-gray-800 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-xl font-semibold"
       />
 
-      {/* Search or Add Workout */}
       <input
         type="text"
         placeholder="Search or create a new workout..."
@@ -94,7 +97,6 @@ const WorkoutManager = () => {
         className="w-full max-w-5xl p-3 mb-4 bg-gray-800 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
-      {/* Workout Suggestions */}
       {searchQuery && (
         <div className="w-full max-w-5xl bg-gray-900 p-3 rounded-lg border border-gray-700 text-white">
           {filteredWorkouts.length > 0 ? (
@@ -135,13 +137,17 @@ const WorkoutManager = () => {
           />
         ))}
       </div>
+
       <motion.button
         onClick={finishWorkout}
-        className="mt-4 bg-red-600 text-white py-2 px-4 rounded-lg shadow-md font-semibold hover:opacity-90 transition-all"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        disabled={loading}
+        className={`mt-4 py-2 px-4 rounded-lg shadow-md font-semibold transition-all ${
+          loading ? "bg-gray-600 cursor-not-allowed" : "bg-red-600 hover:opacity-90 text-white"
+        }`}
+        whileHover={{ scale: loading ? 1 : 1.05 }}
+        whileTap={{ scale: loading ? 1 : 0.95 }}
       >
-        Finish Workout
+        {loading ? "Saving..." : "Finish Workout"}
       </motion.button>
     </div>
   );

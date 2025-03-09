@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { Workout } from "../interfaces/Workout";
+import apiWorkout from "../interfaces/History/apiWorkout";
+import apiSet from "../interfaces/History/apiSet";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const WorkoutHistory = () => {
   const [workoutHistory, setWorkoutHistory] = useState<Workout[]>([]);
   const [expandedWorkout, setExpandedWorkout] = useState<string | null>(null);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchWorkoutHistory = async () => {
@@ -18,19 +21,26 @@ const WorkoutHistory = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
+    
         if (response.data && response.data.data) {
-          console.log(response.data)
-          setWorkoutHistory(response.data.data);
+          const sortedHistory = response.data.data
+            .map((workout: apiWorkout) => ({
+              ...workout,
+              createdAt: workout.createdAt || new Date().toISOString(), 
+            }))
+            .sort((a: apiWorkout, b:apiWorkout) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()); 
+    
+          console.log(sortedHistory);
+          setWorkoutHistory(sortedHistory);
+          setIsDataLoading(false)
         }
       } catch (error) {
         console.error("Error fetching workout history:", error);
       }
     };
     
+    
     fetchWorkoutHistory();
-    console.log("Exercises:", workoutHistory[0]?.exercises);
-
   }, []);
 
   return (
@@ -92,8 +102,8 @@ const WorkoutHistory = () => {
                         <div className="grid grid-cols-3 gap-4 mt-3 text-gray-300">
                         {exercise.exercise.SetLog && exercise.exercise.SetLog.length > 0 ? (
                             exercise.exercise.SetLog
-                            .filter((set: any) => set.workoutId === workout.id)
-                            .map((set: any, index: any) => (
+                            .filter((set: apiSet) => set.workoutId === workout.id)
+                            .map((set: apiSet, index: number) => (
                               <motion.div
                                 key={index}
                                 className="p-4 bg-gray-700 rounded-lg flex flex-col items-center justify-center border border-gray-600 shadow-md"
@@ -118,14 +128,23 @@ const WorkoutHistory = () => {
             </motion.div>
           ))
         ) : (
-          <motion.p 
-            className="text-gray-400 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            No past workouts found.
-          </motion.p>
+
+          isDataLoading ? (
+            <div className="flex items-center justify-center h-screen">
+              <motion.div className="text-white text-2xl justify-center font-bold mb-70">
+                Loading...
+              </motion.div>
+            </div>
+          ) : (
+            <motion.p 
+              className="text-gray-400 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              No past workouts found.
+            </motion.p>
+          )
         )}
       </motion.div>
     </motion.div>

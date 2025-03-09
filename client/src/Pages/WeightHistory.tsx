@@ -16,7 +16,7 @@ const WeightHistory = () => {
   const [weightData, setWeightData] = useState<WeightLog[]>([]);
   const [newWeight, setNewWeight] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isDataLoading, setIsDataLoading] = useState<Boolean>(true);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
   const token = localStorage.getItem("token");
 
   useEffect(() => {

@@ -4,14 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { FaDrumstickBite, FaBreadSlice, FaTint, FaCalendarAlt } from "react-icons/fa";
 import axios from "axios";
 import dayjs from "dayjs"; 
-
-interface MacroEntry {
-  id: string;
-  protein: number;
-  carbs: number;
-  fats: number;
-  createdAt: string;
-}
+import MacroEntry from "../interfaces/MacroEntry";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 const COLORS = ["#10B981", "#F59E0B", "#EF4444"];
@@ -21,7 +14,7 @@ const MacronutrientTracker: React.FC = () => {
   const [newMacros, setNewMacros] = useState({ protein: "", carbs: "", fats: "" });
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(false);
-  const [isDataLoading, setIsDataLoading] = useState<Boolean>(true);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,9 +31,12 @@ const MacronutrientTracker: React.FC = () => {
         setMacroData(response.data.data);
         setIsDataLoading(false);
       }
-    } catch (error: any) {
-      console.log(error.message)
-      console.error("Error fetching macros:", error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error fetching macros:", error.message);
+      } else {
+        console.error("Unexpected error fetching macros:", error);
+      }
     }
   };
 
@@ -74,7 +70,10 @@ const MacronutrientTracker: React.FC = () => {
     }
   };
 
-  const filteredMacros = macroData.find((macro) => macro.createdAt === selectedDate);
+  const today = new Date().toISOString().split("T")[0]; 
+  const filteredMacros = macroData.find(
+    (macro) => macro.createdAt.split("T")[0] === today
+  );
   const chartData = filteredMacros
     ? [
         { name: "Protein", value: filteredMacros.protein },
