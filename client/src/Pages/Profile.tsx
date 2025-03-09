@@ -141,7 +141,7 @@ const ProfilePage: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex gap-4 mt-6 justify-center">
+        <div className="flex gap-4  mt-6 justify-center"> 
           {isEditing ? (
             <>
               <button
