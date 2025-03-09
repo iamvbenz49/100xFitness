@@ -88,17 +88,21 @@ const RoutineSection: React.FC = () => {
             <RoutineCard name={routine.name} imageUrl={routine.imageUrl} />
           </motion.div>
         ))}
-        <motion.button
-          whileHover={{ scale: 1.1, backgroundColor: "#1E40AF" }}
-          whileTap={{ scale: 0.95 }}
-          className="p-6 md:p-8 bg-blue-700 text-white text-2xl font-semibold rounded-2xl hover:bg-blue-800 transition w-full border border-blue-500/50 shadow-md shadow-blue-500/20 hover:shadow-blue-400/40"
-          onClick={() => navigate("/routine")} 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          + New Routine
-        </motion.button>
+        <motion.div
+  whileHover={{ scale: 1.05, boxShadow: "0px 2px 6px rgba(59, 130, 246, 0.3)" }}
+  className="max-w-[220px] md:max-w-[250px] w-full bg-gray-800 rounded-xl flex items-center justify-center p-4 shadow-md border border-gray-700 transition-transform"
+  variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+>
+  <motion.button
+    whileHover={{ scale: 1.1, backgroundColor: "#1E40AF" }}
+    whileTap={{ scale: 0.95 }}
+    className="text-white font-bold text-lg md:text-xl w-full h-full flex items-center justify-center"
+    onClick={() => navigate("/routine")}
+  >
+    + New Routine
+  </motion.button>
+</motion.div>
+
       </motion.div>
     </motion.div>
   );

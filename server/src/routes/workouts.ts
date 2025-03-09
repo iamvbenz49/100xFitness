@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import { authenticate } from "../auth/authenticate";
 import WorkoutRequestBody from "../interfaces/workouts/WorkoutRequestBody";
-import {getUserWorkoutExercises, createWorkout } from "../services/workoutServices";
+import { getUserWorkoutExercises, createWorkout } from "../services/workoutServices";
 
 const workoutRoutes = express.Router();
 

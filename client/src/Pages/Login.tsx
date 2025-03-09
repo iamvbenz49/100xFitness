@@ -20,25 +20,25 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+    <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-6">
       <AuthLeftSection />
       <motion.div
-        className="bg-gray-900 p-12 rounded-3xl shadow-xl w-full max-w-lg text-center border border-gray-700 lg:w-1/2"
+        className="bg-gray-900 p-6 sm:p-12 rounded-3xl shadow-xl w-full max-w-xs sm:max-w-md md:max-w-lg text-center border border-gray-700 lg:w-1/2"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-4xl font-extrabold text-white mb-6">Welcome Back</h2>
-        <p className="text-gray-400 text-lg mb-6">Login to continue your fitness journey!</p>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 sm:mb-6">Welcome Back</h2>
+        <p className="text-gray-400 text-base sm:text-lg mb-4 sm:mb-6">Login to continue your fitness journey!</p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <motion.input
             type="email"
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full p-4 bg-gray-800 text-white rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="w-full p-3 sm:p-4 bg-gray-800 text-white rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             whileFocus={{ scale: 1.05 }}
           />
           <motion.input
@@ -47,12 +47,12 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full p-4 bg-gray-800 text-white rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="w-full p-3 sm:p-4 bg-gray-800 text-white rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             whileFocus={{ scale: 1.05 }}
           />
           <motion.button
             type="submit"
-            className={`w-full py-4 rounded-xl shadow-md font-semibold text-lg transition-all ${
+            className={`w-full py-3 sm:py-4 rounded-xl shadow-md font-semibold text-base sm:text-lg transition-all ${
               loading
                 ? "bg-gray-600 cursor-not-allowed"
                 : "bg-gradient-to-r from-blue-600 to-blue-400 text-white hover:opacity-90"
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
           </motion.button>
         </form>
 
-        <p className="mt-6 text-gray-400">
+        <p className="mt-4 sm:mt-6 text-gray-400">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-400 font-semibold hover:underline">
             Sign Up

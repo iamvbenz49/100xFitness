@@ -102,13 +102,14 @@ export const createWorkout = async (sessionName: string, userId: string, workout
 
       for (const set of workout.sets) {
         await prisma.setLog.create({
-          data: {
-            exerciseId: exercise.id,
-            reps: set.reps,
-            weight: set.weight,
-          },
+            data: {
+                workoutId: routine.id, 
+                exerciseId: exercise.id,
+                reps: set.reps,
+                weight: set.weight,
+            },
         });
-      }
+    }    
     }
 
     console.log("Workout creation completed successfully");

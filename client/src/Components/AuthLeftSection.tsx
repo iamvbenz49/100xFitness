@@ -69,34 +69,38 @@ const AuthLeftSection: React.FC = () => {
         <span className="text-lg font-semibold">Star & Contribute</span>
       </motion.a>
 
-      <h1 className="text-8xl font-extrabold text-blue-400 mb-6">100x Fitness</h1>
-      <p className="text-3xl text-gray-300 italic mb-8">
+      <h1 className="text-5xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold text-blue-400 mb-6">
+        100x Fitness
+      </h1>
+
+      <p className="text-3xl hidden sm:block text-gray-300 italic mb-8">
         "Coz 10x ain't enough"
       </p>
 
 
-      <div
-        className="h-48 w-2/3 overflow-hidden relative"
+      <div 
+        className="h-48 w-2/3 overflow-hidden relative hidden lg:flex"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 1 }}
-          className="text-gray-400 text-lg italic text-center lg:text-left"
-        >
-          “{testimonials[index].text}”
-          <br />
-          <span className="text-blue-400 font-semibold">- {testimonials[index].author}</span>
-        </motion.div>
-      </AnimatePresence>
-    </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 1 }}
+            className="text-gray-400 text-sm md:text-base lg:text-lg italic text-center lg:text-left"
+          >
+            “{testimonials[index].text}”
+            <br />
+            <span className="text-blue-400 font-semibold">- {testimonials[index].author}</span>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-      <div className="flex justify-center lg:justify-start mt-4">
+
+      <div className="flex justify-center block max-[700px]:hidden lg:justify-start mt-4">
         {testimonials.map((_, i) => (
           <motion.div
             key={i}

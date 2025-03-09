@@ -91,7 +91,9 @@ const WorkoutHistory = () => {
 
                         <div className="grid grid-cols-3 gap-4 mt-3 text-gray-300">
                         {exercise.exercise.SetLog && exercise.exercise.SetLog.length > 0 ? (
-                            exercise.exercise.SetLog.map((set: any, index: any) => (
+                            exercise.exercise.SetLog
+                            .filter((set: any) => set.workoutId === workout.id)
+                            .map((set: any, index: any) => (
                               <motion.div
                                 key={index}
                                 className="p-4 bg-gray-700 rounded-lg flex flex-col items-center justify-center border border-gray-600 shadow-md"
