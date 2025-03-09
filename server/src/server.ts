@@ -25,7 +25,9 @@ app.use("/api/history", historyRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/macros", macrosRoutes)
 app.use("/api/user", userRoutes);
-
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Hello Bro</h1>")
+})
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });

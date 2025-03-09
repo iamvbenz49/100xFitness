@@ -58,7 +58,7 @@ const RoutineSection: React.FC = () => {
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="p-10 md:p-14 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md text-white rounded-3xl shadow-xl border border-gray-700 w-full max-w-5xl"
+      className="p-10 md:p-14 bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white rounded-3xl shadow-xl border border-gray-700 w-full max-w-5xl"
     >
       <motion.h3 
         className="text-4xl md:text-5xl font-bold mb-8 text-blue-400 text-center md:text-left"

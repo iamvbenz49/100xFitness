@@ -75,7 +75,7 @@ const WorkoutManager = () => {
   };
 
   return (
-    <div className="flex flex-col items-center h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6 overflow-hidden">
+    <div className="flex flex-col items-center  h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 overflow-hidden">
       {/* Workout Session Name Input */}
       <input
         type="text"
@@ -120,7 +120,6 @@ const WorkoutManager = () => {
         </div>
       )}
 
-      {/* Display Added Workouts */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl h-3/4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 p-4 border border-gray-700 rounded-xl">
         {workouts.map((workout) => (
           <WorkoutTracker
