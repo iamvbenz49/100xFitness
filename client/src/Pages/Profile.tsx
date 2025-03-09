@@ -134,7 +134,7 @@ const ProfilePage: React.FC = () => {
                   className="bg-gray-700 border border-gray-600 rounded p-1 text-white text-right w-24"
                 />
               ) : (
-                <span>{userProfile[key]}</span>
+                <span>{userProfile[key as keyof UserProfile]}</span>
               )}
             </div>
           ))}
