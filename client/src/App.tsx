@@ -41,9 +41,9 @@ const App: React.FC = () => {
         <Route
           path="/target"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <WorkoutGoalsForm />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
 
