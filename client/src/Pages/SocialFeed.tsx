@@ -43,8 +43,8 @@ const sampleUsers: User[] = [
 ];
 
 const SocialFeed: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>(samplePosts);
-  const [suggestedUsers, setSuggestedUsers] = useState<User[]>(sampleUsers);
+  const [posts] = useState<Post[]>(samplePosts);
+  const [suggestedUsers] = useState<User[]>(sampleUsers);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white p-6">
