@@ -12,6 +12,7 @@ import WorkoutHistory from "./Pages/History";
 import WeightHistory from "./Pages/WeightHistory";
 import MacronutrientTracker from "./Pages/MacronutrientTracker";
 import Profile from "./Pages/Profile";
+import SocialFeed from "./Pages/SocialFeed";
 
 const App: React.FC = () => {
   const location = useLocation(); 
@@ -41,9 +42,9 @@ const App: React.FC = () => {
         <Route
           path="/target"
           element={
-            // <ProtectedRoute>
+            <ProtectedRoute>
               <WorkoutGoalsForm />
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
 
@@ -85,6 +86,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <WorkoutForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/feed"
+          element={
+            <ProtectedRoute>
+              <SocialFeed />
             </ProtectedRoute>
           }
         />

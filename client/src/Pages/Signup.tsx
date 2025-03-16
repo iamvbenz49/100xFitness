@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
 
 const Signup: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -17,8 +18,8 @@ const Signup: React.FC = () => {
       setLoading(true);
       try {
         await auth.signup(name, email, password);
-      } catch (error) {
-        alert("Signup failed. Please try again.");
+      } catch (error: unknown) {
+        alert(`Signup failed. Please try again. ${error}`);
       } finally {
         setLoading(false);
       }
@@ -88,7 +89,9 @@ const Signup: React.FC = () => {
           </Link>
         </p>
       </motion.div>
+      <Footer />
     </div>
+    
   );
 };
 
