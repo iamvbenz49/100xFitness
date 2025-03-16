@@ -66,7 +66,7 @@ const RoutineSection: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Your Routines
+        Sample Routines
       </motion.h3>
       <motion.div 
         className="grid grid-cols-2 md:grid-cols-3 gap-8"
@@ -79,14 +79,16 @@ const RoutineSection: React.FC = () => {
       >
         {routines.map((routine, index) => (
           <motion.div
-            key={index}
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.3 }}
-            className="hover:shadow-blue-500/30 rounded-xl transition duration-300"
-            variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-          >
-            <RoutineCard name={routine.name} imageUrl={routine.imageUrl} />
-          </motion.div>
+          key={index}
+          whileHover={{ scale: 1.08 }}
+          transition={{ duration: 0.3 }}
+          className="hover:shadow-blue-500/30 rounded-xl transition duration-300"
+          variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+          onClick={() => navigate(`/sample`)} 
+        >
+          <RoutineCard name={routine.name} imageUrl={routine.imageUrl} />
+        </motion.div>
+        
         ))}
         <motion.div
   whileHover={{ scale: 1.05, boxShadow: "0px 2px 6px rgba(59, 130, 246, 0.3)" }}

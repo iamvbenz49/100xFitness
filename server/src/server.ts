@@ -8,6 +8,7 @@ import historyRoutes from "./routes/history";
 import weightRoutes from "./routes/weight";
 import macrosRoutes from "./routes/macros";
 import userRoutes from "./routes/user";
+import sampleRoutes from "./routes/sample";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.use("/api/history", historyRoutes);
 app.use("/api/weight", weightRoutes);
 app.use("/api/macros", macrosRoutes)
 app.use("/api/user", userRoutes);
+app.use("/api/sample", sampleRoutes);
+
 app.get("/", (req: Request, res: Response) => {
   res.send("<h1>Hello Bro</h1>")
 })
