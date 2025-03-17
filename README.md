@@ -2,10 +2,11 @@
 # To-Do List
 
 ##  Features  
-- [ ] Fix Database schema for history retrieval  
+- [x] Fix Database schema for history retrieval  
 - [ ] Login as Guest
 - [ ] Implement past workouts as routines  
 - [ ] AI-generated diet plan for users  
+- [ ] Social feed for users
 
 
 ##  Feature Suggestions  
