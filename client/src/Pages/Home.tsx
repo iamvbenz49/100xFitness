@@ -2,17 +2,17 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import RoutineCard from "../Components/RoutineCard";
-import Batman from "../assets/batma.jpg";
-import Bateman from "../assets/bateman.jpg";
+// import Batman from "../assets/batma.jpg";
+// import Bateman from "../assets/bateman.jpg";
 import Homelander from "../assets/homelander.jpg";
-import Superman from "../assets/superman.jpg";
+// import Superman from "../assets/superman.jpg";
 import Spidey from "../assets/spidey.jpg";
 
 const routines = [
-  { name: "Shoulder & Biceps", imageUrl: Batman },
-  { name: "Chest & Triceps", imageUrl: Bateman },
-  { name: "Lat & Biceps", imageUrl: Homelander },
-  { name: "Legs & Abs", imageUrl: Superman },
+  { name: "Shoulder & Biceps", imageUrl: Spidey },
+  { name: "Chest & Triceps", imageUrl: Spidey },
+  { name: "Lat & Biceps", imageUrl: Spidey },
+  { name: "Legs & Abs", imageUrl: Spidey },
   { name: "Cardio", imageUrl: Spidey },
 ];
 
