@@ -28,9 +28,9 @@ const Navbar: React.FC = () => {
       <Link to="/macros" className={linkClasses("/macros")}>
         <Pizza size={28} /> <span className="hidden sm:inline">Macros</span>
       </Link>
-      <Link to="/feed" className={linkClasses("/feed")}>
+      {/* <Link to="/feed" className={linkClasses("/feed")}>
         <Newspaper size={28} /> <span className="hidden sm:inline">Feed</span>
-      </Link>
+      </Link> */}
       <Link to="/profile" className={linkClasses("/profile")}>
         <User size={28} /> <span className="hidden sm:inline">Profile</span>
       </Link>
