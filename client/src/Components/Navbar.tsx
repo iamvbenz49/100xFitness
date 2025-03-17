@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, History, BarChart2, Pizza, User, LogOut, Newspaper } from "lucide-react";
+import { Home, History, BarChart2, Pizza, User, LogOut } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
