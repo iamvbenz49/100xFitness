@@ -1,7 +1,12 @@
 
 # To-Do List
 
-##  Features  
+##  Features
+- [x] Track Weight
+- [x] Log Workouts
+- [x] Track Macros
+- [x] Update Profile 
+- [x] Track Weight
 - [x] Fix Database schema for history retrieval  
 - [ ] Login as Guest
 - [ ] Implement past workouts as routines  
