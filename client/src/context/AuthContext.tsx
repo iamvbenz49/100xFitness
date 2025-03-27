@@ -11,6 +11,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isGuest, setIsGuest] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +55,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const guestLogin = () => {
+    const guestUser = {
+      id: "guest",
+      name: "Guest User",
+      email: "guest@example.com",
+    };
+    localStorage.setItem("token", "guest-token");
+    setUser(guestUser);
+    setIsGuest(true);
+    navigate("/");
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -61,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout, signup, guestLogin, isAuthenticated: !!user, isGuest}}>
       {children}
     </AuthContext.Provider>
   );

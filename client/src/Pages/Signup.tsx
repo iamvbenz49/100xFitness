@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
+import GuestButton from "../Components/GuestButtion";
 
 const Signup: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -82,6 +83,8 @@ const Signup: React.FC = () => {
           </motion.button>
         </form>
 
+        <GuestButton />
+
         <p className="mt-6 text-gray-400">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-400 font-semibold hover:underline">
@@ -91,7 +94,6 @@ const Signup: React.FC = () => {
       </motion.div>
       <Footer />
     </div>
-    
   );
 };
 

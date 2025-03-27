@@ -7,10 +7,10 @@ const testimonials = [
     text: "I can do this all day... and with 100x Fitness, so can you. Strength, endurance, discipline—every hero needs them. Suit up and get to work.", 
     author: "Steve Rogers (Captain America)" 
   },
-  // { 
-  //   text: "They say fitness improves your stamina. So next time you last more than 30 seconds, you can thank 100x Fitness and not your ex’s disappointment.", 
-  //   author: "Wade Wilson (Deadpool)" 
-  // },
+  { 
+    text: "They say fitness improves your stamina. So next time you last more than 30 seconds, you can thank 100x Fitness and not your ex’s disappointment.", 
+    author: "Wade Wilson (Deadpool)" 
+  },
   { 
     text: "A weak body can’t protect a city. I train because Gotham depends on me. You train because the world needs you at your best. No excuses—100x Fitness is your Batcave.", 
     author: "Bruce Wayne (Batman)" 

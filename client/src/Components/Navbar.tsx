@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 const Navbar: React.FC = () => {
   const location = useLocation();
   const auth = useContext(AuthContext);
+  const token = localStorage.getItem("token");
   
   const linkClasses = (path: string) =>
     `flex flex-col sm:flex-row items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3 sm:py-4 rounded-lg text-sm sm:text-lg font-semibold transition duration-300 w-full sm:w-auto justify-center sm:justify-start ${
@@ -19,21 +20,28 @@ const Navbar: React.FC = () => {
       <Link to="/" className={linkClasses("/")}>
         <Home size={28} /> <span className="hidden sm:inline">Home</span>
       </Link>
-      <Link to="/history" className={linkClasses("/history")}>
-        <History size={28} /> <span className="hidden sm:inline">History</span>
-      </Link>
-      <Link to="/weight-track" className={linkClasses("/weight-track")}>
-        <BarChart2 size={28} /> <span className="hidden sm:inline">Weight & Track</span>
-      </Link>
-      <Link to="/macros" className={linkClasses("/macros")}>
-        <Pizza size={28} /> <span className="hidden sm:inline">Macros</span>
-      </Link>
-      <Link to="/feed" className={linkClasses("/feed")}>
-        <Newspaper size={28} /> <span className="hidden sm:inline">Feed</span>
-      </Link>
-      <Link to="/profile" className={linkClasses("/profile")}>
-        <User size={28} /> <span className="hidden sm:inline">Profile</span>
-      </Link>
+      {
+        token === "guest" ? (
+          <>
+            <Link to="/history" className={linkClasses("/history")}>
+              <History size={28} /> <span className="hidden sm:inline">History</span>
+            </Link>
+            <Link to="/weight-track" className={linkClasses("/weight-track")}>
+              <BarChart2 size={28} /> <span className="hidden sm:inline">Weight & Track</span>
+            </Link>
+            <Link to="/macros" className={linkClasses("/macros")}>
+              <Pizza size={28} /> <span className="hidden sm:inline">Macros</span>
+            </Link>
+            <Link to="/feed" className={linkClasses("/feed")}>
+              <Newspaper size={28} /> <span className="hidden sm:inline">Feed</span>
+            </Link>
+            <Link to="/profile" className={linkClasses("/profile")}>
+              <User size={28} /> <span className="hidden sm:inline">Profile</span>
+            </Link>
+          </>
+        ) : null
+      }
+
       {auth && auth.logout && (
         <button
           onClick={auth.logout}

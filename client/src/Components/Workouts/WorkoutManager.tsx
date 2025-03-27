@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import WorkoutTracker from "./WorkoutTracker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const WorkoutManager = () => {
+  const user = useContext(AuthContext);
+  
   const navigate = useNavigate();
   const [sessionName, setSessionName] = useState("");
   const [workouts, setWorkouts] = useState<{ id: string; name: string; sets: { weight: number; reps: number }[] }[]>([]);
@@ -15,25 +18,37 @@ const WorkoutManager = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const controller = new AbortController(); 
+    const { signal } = controller;
     const fetchWorkouts = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token || token === "guest") return;
+        console.log("req made")
         const response = await axios.get(`${BACKEND_URL}workouts`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
+          signal, 
         });
-
+  
         if (response.data.success) {
           setAvailableWorkouts(response.data.data);
         }
       } catch (error) {
-        console.error("Error fetching workouts:", error);
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error("Error fetching workouts:", error);
+        }
       }
     };
 
-    fetchWorkouts();
-  }, []);
+    if (!user?.isGuest) {  
+      fetchWorkouts();
+    }
+  
+    return () => controller.abort(); 
+  }, [user?.isGuest]);
+  
 
   const filteredWorkouts = availableWorkouts.filter((workout) =>
     workout.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -47,35 +62,38 @@ const WorkoutManager = () => {
     setSearchQuery("");
   };
 
-  // ✅ Finish workout session (with disabled button while loading)
   const finishWorkout = async () => {
     if (!sessionName.trim()) {
       alert("Please enter a name for your workout session.");
       return;
     }
 
-    setLoading(true); // Disable button during request
+    setLoading(true); 
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
-        `${BACKEND_URL}workouts`,
-        { sessionName, workouts },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      if (!user?.isGuest) {
+        await axios.post(
+          `${BACKEND_URL}workouts`,
+          { sessionName, workouts },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        return;
+      }
 
       setSessionName("");
       setWorkouts([]);
+      localStorage.removeItem("token");
       navigate("/");
     } catch (error) {
       console.error("Error saving workout:", error);
     } finally {
-      setLoading(false); // Re-enable button
+      setLoading(false); 
     }
   };
 

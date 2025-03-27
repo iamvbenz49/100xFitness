@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection"; 
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
+import GuestButton from "../Components/GuestButtion";
 
 const Login: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -19,7 +20,6 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
-
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-6">
       <AuthLeftSection />
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
             {loading ? "Logging in..." : "Login"}
           </motion.button>
         </form>
-
+        <GuestButton />
         <p className="mt-4 sm:mt-6 text-gray-400">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-400 font-semibold hover:underline">
