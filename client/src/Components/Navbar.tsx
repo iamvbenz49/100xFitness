@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
         <Home size={28} /> <span className="hidden sm:inline">Home</span>
       </Link>
       {
-        token === "guest" ? (
+        token !== "guest-token" ? (
           <>
             <Link to="/history" className={linkClasses("/history")}>
               <History size={28} /> <span className="hidden sm:inline">History</span>
