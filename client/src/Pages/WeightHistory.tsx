@@ -3,16 +3,14 @@ import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { FaWeight } from "react-icons/fa";
 import axios from "axios";
+import WeightLog from "../interfaces/WeightLog";
+import { Loader2 } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-interface WeightLog {
-  id: string;
-  weight: number;
-  createdAt: string;
-}
 
-const WeightHistory = () => {
+
+const WeightHistory: React.FC = () => {
   const [weightData, setWeightData] = useState<WeightLog[]>([]);
   const [newWeight, setNewWeight] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -143,7 +141,10 @@ const WeightHistory = () => {
           isDataLoading ? (
                 <div className="flex items-center justify-center h-screen">
                   <motion.div className="text-white text-2xl justify-center font-bold mb-70">
-                    Loading...
+                    <div className="flex justify-center items-center h-48">
+                      <Loader2 className="animate-spin text-blue-500 w-6 h-6" />
+                      <span className="ml-2 text-blue-300">Fetching data...</span>
+                    </div>
                   </motion.div>
                 </div>
           ) :

@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import UserProfile from "../interfaces/UserProfile";
+import { Loader2 } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
@@ -37,7 +38,6 @@ const ProfilePage: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
           timeout: 10000,
         });
-        console.log(response.data)
         setUserProfile(response.data);
         setFormData(response.data);
       } catch (error) {
@@ -71,13 +71,9 @@ const ProfilePage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-white text-2xl font-bold"
-        >
-          Loading...
+        <motion.div className="flex items-center text-white text-2xl font-bold">
+          <Loader2 className="animate-spin text-blue-500 w-6 h-6" />
+          <span className="ml-2 text-blue-300">Fetching data...</span>
         </motion.div>
       </div>
     );
@@ -102,7 +98,7 @@ const ProfilePage: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="text-white text-4xl font-bold bg-gray-700 border border-gray-600 rounded p-2 text-center"
+              className="text-white text-3xl font-bold bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           ) : (
             <h2 className="text-white text-4xl font-bold">{userProfile.name}</h2>
@@ -115,7 +111,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 text-gray-300 text-lg">
-          {[  
+          {[
             { icon: <FaWeight className="text-green-400" />, label: "Current Weight", key: "currentWeight" },
             { icon: <FaBullseye className="text-yellow-400" />, label: "Target Weight", key: "targetWeight" },
             { icon: <FaDumbbell className="text-red-400" />, label: "Goal", key: "Goal" },
@@ -131,7 +127,7 @@ const ProfilePage: React.FC = () => {
                   name={key}
                   value={formData[key as keyof typeof formData]}
                   onChange={handleChange}
-                  className="bg-gray-700 border border-gray-600 rounded p-1 text-white text-right w-24"
+                  className="bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-white w-36 text-right focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                 />
               ) : (
                 <span>{userProfile[key as keyof UserProfile]}</span>
@@ -140,7 +136,7 @@ const ProfilePage: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex gap-4  mt-6 justify-center"> 
+        <div className="flex gap-4 mt-6 justify-center">
           {isEditing ? (
             <>
               <button

@@ -1,5 +1,4 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/protectedRoute";
 import IsLoggedInRoute from "./routes/IsLoggedInRoute";
 import Login from "./Pages/Login";
@@ -14,6 +13,8 @@ import MacronutrientTracker from "./Pages/MacronutrientTracker";
 import Profile from "./Pages/Profile";
 import SocialFeed from "./Pages/SocialFeed";
 import WorkoutManagerSample from "./Components/Workouts/WorkoutManagerSample";
+import { MacrosProvider } from "./context/macros/MacroProvider";
+import { AuthProvider } from "./context/auth/AuthProvider";
 
 const App: React.FC = () => {
   const location = useLocation(); 
@@ -70,7 +71,9 @@ const App: React.FC = () => {
           path="/macros"
           element={
             <ProtectedRoute>
-             <MacronutrientTracker />
+              <MacrosProvider>
+                <MacronutrientTracker />
+              </MacrosProvider>
             </ProtectedRoute>
           }
         />

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, History, BarChart2, Pizza, User, LogOut, Newspaper } from "lucide-react";
-import { AuthContext } from "../context/AuthContext";
+import { Home, History, BarChart2, Pizza, User, LogOut, /*Newspaper*/ } from "lucide-react";
+import { AuthContext } from "../context/auth/AuthContext";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -32,9 +32,9 @@ const Navbar: React.FC = () => {
             <Link to="/macros" className={linkClasses("/macros")}>
               <Pizza size={28} /> <span className="hidden sm:inline">Macros</span>
             </Link>
-            <Link to="/feed" className={linkClasses("/feed")}>
+            {/* <Link to="/feed" className={linkClasses("/feed")}>
               <Newspaper size={28} /> <span className="hidden sm:inline">Feed</span>
-            </Link>
+            </Link> */}
             <Link to="/profile" className={linkClasses("/profile")}>
               <User size={28} /> <span className="hidden sm:inline">Profile</span>
             </Link>

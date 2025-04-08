@@ -1,10 +1,10 @@
 import { useContext, useState, FormEvent } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import AuthLeftSection from "../Components/AuthLeftSection";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
-import GuestButton from "../Components/GuestButtion";
+import { AuthContext } from "../context/auth/AuthContext";
+import GuestButton from "../Components/GuestButton";
 
 const Signup: React.FC = () => {
   const auth = useContext(AuthContext);

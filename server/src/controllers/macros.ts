@@ -37,14 +37,15 @@ export const createMacroEntry = async (req: Request, res: Response) => {
         res.status(400).json({error: "user illada"})
         return
     }
+    console.log("check 1")
     const userId = req.user.id;
     const { protein, carbs, fats } = req.body;
-
-    if (!protein || !carbs || !fats) {
+    console.log(req.body)
+    if(protein === undefined || carbs === undefined || fats === undefined) {
         res.status(400).json({ success: false, message: "All fields are required." });
         return
     }
-
+    console.log("check 2")
     const newEntry = await addMacroEntry(userId, parseFloat(protein), parseFloat(carbs), parseFloat(fats));
     res.status(201).json({ success: true, data: newEntry });
   } catch (error) {

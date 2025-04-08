@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import WorkoutTracker from "./WorkoutTracker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/auth/AuthContext";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
