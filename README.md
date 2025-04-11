@@ -8,9 +8,9 @@
 - [x] Update Profile 
 - [x] Track Weight
 - [x] Fix Database schema for history retrieval  
-- [ ] Login as Guest
+- [x] Login as Guest
 - [ ] Implement past workouts as routines  
-- [ ] AI-generated diet plan for users  
+- [x] AI-generated diet plan for users  
 - [ ] Social feed for users
 
 

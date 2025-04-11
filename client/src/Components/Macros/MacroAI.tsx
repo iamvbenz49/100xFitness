@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 type Message = {
@@ -5,29 +6,39 @@ type Message = {
   text: string;
 };
 
+
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+
 const MacroAI: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
 
   const handleSend = async () => {
+    const token = localStorage.getItem("token")
     if (!input.trim()) return;
 
     const userMessage: Message = { role: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
-    setTimeout(() => {
-      const aiMessage: Message = {
-        role: "ai",
-        text: `AI: Your diet advice for "${input}"`,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-    }, 1000);
+
+    const response = await axios.post(`${BACKEND_URL}diet`, { query: input }, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    });
+    const aiMessage: Message = {
+      role: "ai",
+      text: response.data.data || "No response from AI 🤖",
+    };
+    setMessages((prev) => [...prev, aiMessage]);
+
   };
 
   return (
     <div className="w-full h-full p-6 border rounded-xl border-gray-700 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-md shadow-2xl mt-6 flex flex-col overflow-hidden">
-      {/* Message List */}
+
       <div className="flex-1 overflow-y-auto border-b border-gray-700 p-2 mb-2">
         {messages.map((msg, index) => (
           <div
@@ -47,7 +58,6 @@ const MacroAI: React.FC = () => {
         ))}
       </div>
 
-      {/* Input Area */}
       <div className="flex">
         <input
           className="flex-1 p-2 bg-gray-700 rounded-lg focus:outline-none text-white"

@@ -9,6 +9,7 @@ import weightRoutes from "./routes/weight";
 import macrosRoutes from "./routes/macros";
 import userRoutes from "./routes/user";
 import sampleRoutes from "./routes/sample";
+import dietAIRoutes from "./routes/diet";
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use("/api/weight", weightRoutes);
 app.use("/api/macros", macrosRoutes)
 app.use("/api/user", userRoutes);
 app.use("/api/sample", sampleRoutes);
+app.use("/api/diet", dietAIRoutes);
+
 
 app.get("/", (req: Request, res: Response) => {
   res.send("<h1>Hello Bro</h1>")
