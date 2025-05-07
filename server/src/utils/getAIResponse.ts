@@ -25,7 +25,7 @@ async function getAIResponse(query: string): Promise<void> {
           contents: [
             {
               parts: [
-                { text: "query"}
+                { text: query}
               ]
             }
           ]
