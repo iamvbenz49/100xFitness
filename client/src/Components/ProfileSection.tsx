@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Homelander from "../assets/homelander.jpg";
+import Homelander from "../assets/batma.jpg";
 
 const ProfileSection: React.FC = () => {
     return (
